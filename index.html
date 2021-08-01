@@ -35,16 +35,52 @@
             height: 50px;
         }
 
+        .banner {
+            fill: lightgray;
+            /* width: 100px;
+            height: 50px */
+            min-width: 750px;
+            padding-top: 15px;
+            padding-bottom: 50px;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+
         .logo {
             width: 30px;
             border-radius: 10%; 
         }
+
+        .right-panel {
+            border-top: none;
+            border-left: 1px solid lightgrey;
+            height: 100%;
+            padding-top: 10px;
+            padding-left: 20px; 
+            padding-right: 20px; 
+            min-width: 330px;
+        }
+
+        .wrapped.right-panel {
+            border-top: 1px solid lightgrey;
+            border-left: none;
+            padding-top: 20px;
+            margin-top: 15px
+        }
+
+        .viz-body {
+            min-width: 750px;
+        }
+
+        hr {
+            border-color: lightgrey;
+            border-width: 1px;
+        }
     </style>
 
 
-    <div class="container">
-        <div class="jumbotron container"
-            style="height:auto; padding-top: 10px; padding-bottom: 40px; margin-top: 15px; margin-bottom: 25px">
+    <div class="container viz-body">
+        <div class="container jumbotron banner">
             <div class="header">
                 <a style="color:black" href="./">
                     <img src="./img/bike-logo.png" class="logo"></img>
@@ -58,26 +94,25 @@
             <h2>Introduction</h2>
             <p>With the rise of bike sharing services such as VeoRide and Santander, it's becoming increasingly valuable for private bike sharing companies and tourism offices to analyze bike sharing trends. </p>
             <p>Here, we take a deep dive into the London transport authority's 2015-2017 dataset to find out whether the weather type, time of year, and time of day impact the number of new bike shares per hour. </p>
-            <p>Use the "Viz Navigation" buttons to navigate between charts. Keep an eye out for <span style="color:#f28e2c;font-weight:bold">annotations</span> and <i style="color:#0008;"">opportunities to interact</i> as you go. </p>
+            <p>Use the "Chart Navigation" buttons to navigate between charts. Keep an eye out for <span style="color:#f28e2c;font-weight:bold">annotations</span> and <i style="color:#0008;"">opportunities to interact</i> as you go. </p>
             <small>Dataset: <a href="https://www.kaggle.com/hmavrodiev/london-bike-sharing-dataset?select=london_merged.csv" target="_blank">London bike sharing dataset | Kaggle</a>, Weather icons: <a href="https://www.amcharts.com/free-animated-svg-weather-icons/" target="_blank">Free animated SVG weather icons | amCharts</a></small>
             <hr>
         </div>
 
-        <table id="viz-body">
-            <tr>
-                <td
-                    style="text-align: center; border-right-style: solid; border-width: 1px; border-color: lightgray;">
+        <div class="row">
+            <div class="col-sm wrapable">
+                <div style="text-align: center;">
                     <h3>Weather Type versus Avg. Bike Shares per Hour</h3>
                     <svg id="chart" width="660" height="530" viewBox="0 0 660 530">
                         <!-- <rect fill="none" stroke="lightgrey" stroke-width="1px" x="0" y="0" width="100%" height="100%"/> -->
                     </svg>
-                </td>
-                <td valign=top style="padding-left: 20px; padding-top: 10px; min-width: 330px;">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div valign=top class="wrapable right-panel">
                     <nav style="display: inline;">
                         <ul class="pagination pagination-sm">
-                            <li>
-                                <h4 style="margin-right:10px">Viz Navigation:</h4>
-                            </li>
+                            <li><h4 style="margin-right:10px">Chart Navigation:</h4></li>
                             <li class="page-item disabled"><a class="page-link" href="./">&lt;</a></li>
                             <li class="page-item active"><a class="page-link" href="./">1</a></li>
                             <li class="page-item"><a class="page-link" href="./chart-month.html">2</a></li>
@@ -118,14 +153,32 @@
                             </tr>
                         </table>
                     </div>
-                </td>
-            </tr>
-        </table>
-
+                </div>
+            </div>
+        </div>
         <hr>
     </div>
 
     <script>
+
+        var updateWrappedBorders = function() {
+            var prevItem = {}, currItem = {};
+            var items = document.getElementsByClassName("wrapable");
+            var leeway = 20
+            for (var i = 0; i < items.length; i++) {
+                currItem = items[i].getBoundingClientRect();
+                if (prevItem && prevItem.top + leeway < currItem.top) {
+                    items[i].classList.add("wrapped");
+                } else {
+                    items[i].classList.remove("wrapped");
+                }
+                prevItem = currItem;
+            };
+        }
+
+        window.onload = updateWrappedBorders;
+        window.onresize = updateWrappedBorders;
+
         // WRAP TEXT
         // https://stackoverflow.com/questions/24784302/wrapping-text-in-d3/24785497
         function wrap(text, width) {
