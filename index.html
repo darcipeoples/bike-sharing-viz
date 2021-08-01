@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <title>Bike Sharing Narrative Visualization</title>
+</head>
+
+<body>
+    <style>
+        .bar {
+            stroke: black;
+            stroke-width: 0px;
+        }
+
+        .stat-label {
+            font-weight: bold;
+            width: 130px;
+        }
+
+        .header img {
+            float: left;
+            width: 50px;
+        }
+
+        .header h1 {
+            position: relative;
+            left: 10px;
+        }
+
+        .header {
+            height: 50px;
+        }
+
+        .logo {
+            width: 30px;
+            border-radius: 10%; 
+        }
+    </style>
+
+
+    <div class="container">
+        <div class="jumbotron container"
+            style="height:auto; padding-top: 10px; padding-bottom: 40px; margin-top: 15px; margin-bottom: 25px">
+            <div class="header">
+                <a style="color:black" href="./">
+                    <img src="./img/bike-logo.png" class="logo"></img>
+                    <h1>Bike Sharing Narrative Visualization</h1>
+                </a>
+                <p>A CS 416 Narrative Visualization by Darci Peoples (<a href="https://github.com/darciap2">darciap2</a>)</p>
+            </div>
+        </div>
+
+        <h2>Introduction</h2>
+        <p>With the rise of bike sharing services such as VeoRide and Santander, it's becoming increasingly valuable for private bike sharing companies and tourism offices to analyze bike sharing trends. </p>
+        <p>Here, we take a deep dive into the London transport authority's 2015-2017 dataset to find out whether the weather type, time of year, and time of day impact the number of new bike shares per hour. </p>
+        <p>Use the "Viz Navigation" buttons to navigate between charts. Keep an eye out for <span style="color:#f28e2c;font-weight:bold">annotations</span> and <i style="color:#0008;"">opportunities to interact</i> as you go. </p>
+        <small>Dataset: <a href="https://www.kaggle.com/hmavrodiev/london-bike-sharing-dataset?select=london_merged.csv">London bike sharing dataset | Kaggle</a>, Weather icons: <a href="https://www.amcharts.com/free-animated-svg-weather-icons/">Free animated SVG weather icons | amCharts</a></small>
+        
+        <hr>
+
+        <table>
+            <tr>
+                <td
+                    style="text-align: center; border-right-style: solid; border-width: 1px; border-color: lightgray;">
+                    <h3>Weather Type versus Avg. Bike Shares per Hour</h3>
+                    <svg id="chart" width="660" height="530" viewBox="0 0 660 530">
+                        <!-- <rect fill="none" stroke="lightgrey" stroke-width="1px" x="0" y="0" width="100%" height="100%"/> -->
+                    </svg>
+                </td>
+                <td valign=top style="padding-left: 20px; padding-top: 10px; min-width: 330px;">
+                    <nav style="display: inline;">
+                        <ul class="pagination pagination-sm">
+                            <li>
+                                <h4 style="margin-right:10px">Viz Navigation:</h4>
+                            </li>
+                            <li class="page-item disabled"><a class="page-link" href="./">&lt;</a></li>
+                            <li class="page-item active"><a class="page-link" href="./">1</a></li>
+                            <li class="page-item"><a class="page-link" href="./2.html">2</a></li>
+                            <li class="page-item"><a class="page-link" href="./3.html">3</a></li>
+                            <li class="page-item"><a class="page-link" href="./2.html">&gt;</a></li>
+                        </ul>
+                    </nav>
+                    <hr>
+                    <div id='addtl-info'>
+                        <h3>Additional Information</h3>
+                        <p><i style="color:#0008;">Hover over a bar to get more information about that weather
+                                type.</i></p>
+                        <h4 id="weather-name">Weather Type</h4>
+                        <table>
+                            <tr>
+                                <td class="stat-label">Avg. Shares</td>
+                                <td id="avg-cnt">-</td>
+                            </tr>
+                            <tr>
+                                <td class="stat-label">Avg. Temp.</td>
+                                <td id="avg-t2-f">-</td>
+                            </tr>
+                            <tr>
+                                <td class="stat-label">Avg. Humidity </td>
+                                <td id="avg-hum">-</td>
+                            </tr>
+                            <tr>
+                                <td class="stat-label">Avg. Wind</td>
+                                <td id="avg-wind-mph">-</td>
+                            </tr>
+                            <tr>
+                                <td class="stat-label">Peak Month</td>
+                                <td id="peak-month">-</td>
+                            </tr>
+                            <tr>
+                                <td class="stat-label">Frequency</td>
+                                <td id="freq">-</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <hr>
+    </div>
+
+    <script>
+        // WRAP TEXT
+        // https://stackoverflow.com/questions/24784302/wrapping-text-in-d3/24785497
+        function wrap(text, width) {
+            text.each(function () {
+                var text = d3.select(this),
+                    words = text.text().split(/\s+/).reverse(),
+                    word,
+                    line = [],
+                    lineNumber = 0,
+                    lineHeight = 1.1, // ems
+                    x = text.attr("x"),
+                    y = text.attr("y"),
+                    dy = 0, //parseFloat(text.attr("dy")),
+                    tspan = text.text(null)
+                    .append("tspan")
+                    .attr("x", x)
+                    .attr("y", y)
+                    .attr("dy", dy + "em");
+                while (word = words.pop()) {
+                    line.push(word);
+                    tspan.text(line.join(" "));
+                    if (tspan.node().getComputedTextLength() > width) {
+                        line.pop();
+                        tspan.text(line.join(" "));
+                        line = [word];
+                        tspan = text.append("tspan")
+                            .attr("x", x)
+                            .attr("y", y)
+                            .attr("dy", ++lineNumber * lineHeight + dy + "em")
+                            .text(word);
+                    }
+                }
+            });
+        }
+
+        var data=[{idx:"0","avg-cnt":"1162.1","avg-t2-f":"53.0","avg-hum":"68.0","avg-wind-mph":"8.4","peak-month":"April",freq:"35.3","gif-name":"day.svg","weather-name":"Clear"},{idx:"1","avg-cnt":"1496.2","avg-t2-f":"54.3","avg-hum":"67.0","avg-wind-mph":"11.0","peak-month":"July",freq:"23.2","gif-name":"cloudy-day-1.svg","weather-name":"Scattered clouds"},{idx:"2","avg-cnt":"1195.1","avg-t2-f":"52.9","avg-hum":"76.2","avg-wind-mph":"10.8","peak-month":"October",freq:"20.4","gif-name":"cloudy-day-3.svg","weather-name":"Broken clouds"},{idx:"3","avg-cnt":"635.2","avg-t2-f":"49.2","avg-hum":"80.3","avg-wind-mph":"8.7","peak-month":"December",freq:"8.4","gif-name":"cloudy.svg","weather-name":"Cloudy"},{idx:"4","avg-cnt":"713.0","avg-t2-f":"51.5","avg-hum":"82.4","avg-wind-mph":"11.2","peak-month":"January",freq:"12.3","gif-name":"rainy-7.svg","weather-name":"Rain"},{idx:"5","avg-cnt":"583.4","avg-t2-f":"53.9","avg-hum":"74.9","avg-wind-mph":"10.9","peak-month":"April",freq:"0.1","gif-name":"thunder.svg","weather-name":"Rain w/ Thunderstorm"},{idx:"6","avg-cnt":"250.9","avg-t2-f":"36.1","avg-hum":"88.8","avg-wind-mph":"11.1","peak-month":"February",freq:"0.3","gif-name":"snowy-6.svg","weather-name":"Snowfall"}];
+        var palette = ["#4e79a7", "#f28e2c", "#e15759", "#76b7b2", "#59a14f", "#edc949", "#af7aa1", "#ff9da7", "#9c755f", "#bab0ab"]
+
+        function mouseoverBar() {
+            var selData = d3.select(this).data()[0]
+            d3.selectAll(".bar")
+                .style("stroke-width", "0px")
+                .style("opacity", "50%");
+            d3.select(this)
+                .style("stroke-width", "3px")
+                .style("opacity", "100%");
+            d3.selectAll(".x-axis-label")
+                .style("font-weight", function (d, i) {
+                    if (i == selData['idx']) { return "bold" }
+                    return "normal"
+                })
+            d3.selectAll(".gif")
+                .attr("xlink:href", function (d, i) {
+                    if (i == selData['idx']) { return `./img/amcharts/animated/${d["gif-name"]}` } 
+                    else { return `./img/amcharts/static/${d["gif-name"]}` }
+                });
+            var d = d3.select(this).data()[0]
+            d3.select("#weather-name").html(d["weather-name"]).style("color", palette[0])
+            d3.select("#avg-cnt").html(`${d["avg-cnt"]} shares/hr`)
+            d3.select("#avg-hum").html(`${d["avg-hum"]}%`)
+            d3.select("#avg-wind-mph").html(`${d["avg-wind-mph"]} mph`)
+            d3.select("#freq").html(`${d["freq"]}% of hours`)
+            d3.select("#peak-month").html(`${d["peak-month"]}`)
+            d3.select("#avg-t2-f").html(`${d["avg-t2-f"]}°F`);
+        }
+
+
+        var x = d3.scaleLinear()
+            .domain([0, 7])
+            .range([10, 600]);
+
+        var y = d3.scaleLinear()
+            .domain([0, 1550])
+            .range([395, 0]);
+
+        var svg = d3.select("#chart");
+
+
+        // CHART BODY
+        // chart bars
+        svg.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("width", function (d, i) { return `${x(i+1)-x(i)-10}` })
+            .attr("height", function (d, i) { return `${395 - y(parseFloat(d["avg-cnt"]))}` })
+            .attr("y", function (d, i) { return `${y(parseFloat(d["avg-cnt"]))}` })
+            .attr("x", function (d, i) { return `${x(i)+60}` })
+            .attr("fill", function (d, i) { return palette[0] })
+            .on('mouseover', mouseoverBar);
+
+
+        // Y-AXIS
+        // y-axis title
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0)
+            .attr("x", -200)
+            .attr("dy", "1em")
+            .style("font-weight", "bold")
+            .style("text-anchor", "middle")
+            .text("Avg. Bike Shares per Hour");
+        // y-axis labels
+        svg.append("g")
+            .attr("transform", "translate(60)")
+            .call(d3.axisLeft()
+                .scale(y));
+
+
+        // X-AXIS
+        // x-axis icons
+        svg.selectAll(".gif")
+            .data(data)
+            .enter().append("image")
+            .attr("class", "gif")
+            .attr("width", function (d, i) { return `${x(i+1)-x(i)-5}` })
+            .attr("x", function (d, i) { return `${x(i)+60}` })
+            .attr("y", -10 + 400)
+            .attr("xlink:href", function (d, i) { return `./img/amcharts/static/${d["gif-name"]}` });
+        // x-axis labels
+        svg.selectAll("#x-axis-label")
+            .data(data)
+            .enter().append("text")
+            .attr("class", "x-axis-label")
+            .attr("x", function (d, i) { return `${x(i+0.5)-5+60}` })
+            .attr("y", `${80+400}`)
+            .style("text-anchor", "middle")
+            .each(function (d, i) { 
+                d3.select(this).text(d["weather-name"]) 
+            })
+            .call(wrap, 80)
+        // x-axis title
+        svg.append("text")
+            .attr("x", 350)
+            .attr("y", 120 + 400)
+            .style("text-anchor", "middle")
+            .style("font-weight", "bold")
+            .text("Weather Type")
+
+
+        // ANNOTATIONS
+        // https://observablehq.com/@harrylove/draw-an-arrowhead-marker-connected-to-a-line-in-d3
+
+        // Annotation arrow cap definition
+        svg.append('defs')
+            .append('marker')
+            .attr('id', 'arrow')
+            .attr('viewBox', [0, 0, 5, 5])
+            .attr('refX', 2.5).attr('refY', 2.5)
+            .attr('markerWidth', 5).attr('markerHeight', 5)
+            .attr('orient', 'auto-start-reverse')
+            .append('path')
+            .attr('d', d3.line()([[0, 0], [0, 5], [5, 2.5]]))
+            .attr('stroke', 'none')
+            .attr("fill", palette[1]);
+
+        // Annotation arrow
+        svg.append('path')
+            .attr('d', d3.line()([[260, 30], [620, 250]]))
+            .attr('stroke', palette[1])
+            .attr('marker-end', 'url(#arrow)')
+            .attr('fill', "none")
+            .attr("stroke-dasharray","6")
+            .attr("stroke-width", "3px");
+
+        // Annotation text
+        svg.append("text")
+            .attr("x", 500)
+            .attr("y", 70)
+            .attr('fill', palette[1])
+            .style("text-anchor", "middle")
+            .style("font-weight", "bold")
+            .each(function (d, i) {
+                d3.select(this).text("When the weather is worse, fewer people tend to bike share.")
+            })
+            .call(wrap, 180)
+    </script>
+
+</body>
+
+</html>

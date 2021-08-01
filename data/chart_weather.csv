@@ -1,0 +1,8 @@
+﻿idx,avg-cnt,avg-t2-f,avg-hum,avg-wind-mph,peak-month,freq,gif-name,weather-name
+0,1162.1,53.0,68.0,8.4,April,35.3,day.svg,Clear
+1,1496.2,54.3,67.0,11.0,July,23.2,cloudy-day-1.svg,Scattered clouds
+2,1195.1,52.9,76.2,10.8,October,20.4,cloudy-day-3.svg,Broken clouds
+3,635.2,49.2,80.3,8.7,December,8.4,cloudy.svg,Cloudy
+4,713.0,51.5,82.4,11.2,January,12.3,rainy-7.svg,Rain
+5,583.4,53.9,74.9,10.9,April,0.1,thunder.svg,Rain w/ Thunderstorm
+6,250.9,36.1,88.8,11.1,February,0.3,snowy-6.svg,Snowfall
