@@ -52,7 +52,7 @@
                     <img src="./img/bike-logo.png" class="logo"></img>
                     <h1>Bike Sharing Narrative Visualization</h1>
                 </a>
-                <p>A CS 416 Narrative Visualization by Darci Peoples (<a href="https://github.com/darciap2">darciap2</a>)</p>
+                <p>A CS 416 Narrative Visualization by Darci Peoples (<a href="https://github.com/darciap2" target="_blank">darciap2</a>)</p>
             </div>
         </div>
 
@@ -61,7 +61,7 @@
             <p>With the rise of bike sharing services such as VeoRide and Santander, it's becoming increasingly valuable for private bike sharing companies and tourism offices to analyze bike sharing trends. </p>
             <p>Here, we take a deep dive into the London transport authority's 2015-2017 dataset to find out whether the weather type, time of year, and time of day impact the number of new bike shares per hour. </p>
             <p>Use the "Viz Navigation" buttons to navigate between charts. Keep an eye out for <span style="color:#f28e2c;font-weight:bold">annotations</span> and <i style="color:#0008;"">opportunities to interact</i> as you go. </p>
-            <small>Dataset: <a href="https://www.kaggle.com/hmavrodiev/london-bike-sharing-dataset?select=london_merged.csv">London bike sharing dataset | Kaggle</a>, Weather icons: <a href="https://www.amcharts.com/free-animated-svg-weather-icons/">Free animated SVG weather icons | amCharts</a></small>
+            <small>Dataset: <a href="https://www.kaggle.com/hmavrodiev/london-bike-sharing-dataset?select=london_merged.csv" target="_blank">London bike sharing dataset | Kaggle</a>, Weather icons: <a href="https://www.amcharts.com/free-animated-svg-weather-icons/" target="_blank">Free animated SVG weather icons | amCharts</a></small>
             <hr>
         </div>
 
@@ -69,7 +69,7 @@
             <tr>
                 <td
                     style="text-align: center; border-right-style: solid; border-width: 1px; border-color: lightgray;">
-                    <h3>Time of Day versus Avg. Bike Shares per Hour</h3>
+                    <h3>Month versus Avg. Bike Shares per Hour</h3>
                     <svg id="chart" width="660" height="460" viewBox="0 0 660 460">
                         <!-- <rect fill="none" stroke="lightgrey" stroke-width="1px" x="0" y="0" width="100%" height="100%"/> -->
                     </svg>
@@ -80,19 +80,19 @@
                             <li>
                                 <h4 style="margin-right:10px">Viz Navigation:</h4>
                             </li>
-                            <li class="page-item"><a class="page-link" href="./2.html">&lt;</a></li>
+                            <li class="page-item"><a class="page-link" href="./">&lt;</a></li>
                             <li class="page-item"><a class="page-link" href="./">1</a></li>
-                            <li class="page-item"><a class="page-link" href="./2.html">2</a></li>
-                            <li class="page-item active"><a class="page-link" href="./3.html">3</a></li>
-                            <li class="page-item disabled"><a class="page-link" href="./3.html">&gt;</a></li>
+                            <li class="page-item active"><a class="page-link" href="./chart-month.html">2</a></li>
+                            <li class="page-item"><a class="page-link" href="./chart-hour.html">3</a></li>
+                            <li class="page-item"><a class="page-link" href="./chart-hour.html">&gt;</a></li>
                         </ul>
                     </nav>
                     <hr>
                     <div id='addtl-info'>
                         <h3>Additional Information</h3>
-                        <p><i style="color:#0008;">Hover over a bar to get more information about that hour.</i>
-                        </p>
-                        <h4 id="hour-name">Time of Day</h4>
+                        <p><i style="color:#0008;">Hover over a bar to get more information about that
+                                month.</i></p>
+                        <h4 id="month-name">Month</h4>
                         <table>
                             <tr>
                                 <td class="stat-label">Avg. Shares</td>
@@ -111,12 +111,8 @@
                                 <td id="avg-wind-mph">-</td>
                             </tr>
                             <tr>
-                                <td class="stat-label">Work hour?</td>
-                                <td id="is-workhour">-</td>
-                            </tr>
-                            <tr>
-                                <td class="stat-label">Day or Night?</td>
-                                <td id="day-night">-</td>
+                                <td class="stat-label">Season</td>
+                                <td id="season">-</td>
                             </tr>
                         </table>
                     </div>
@@ -165,9 +161,9 @@
             });
         }
 
-        var data=[{idx:"0","avg-cnt":"290.6","avg-t2-f":"50.4","avg-hum":"78.1","avg-wind-mph":"8.7","is-workhour":"No","day-night":"Night","hour-name-12":"12am","hour-name-12-long":"12 AM"},{idx:"1","avg-cnt":"200.6","avg-t2-f":"49.9","avg-hum":"79.3","avg-wind-mph":"8.5","is-workhour":"No","day-night":"Night","hour-name-12":"1am","hour-name-12-long":"1 AM"},{idx:"2","avg-cnt":"136.3","avg-t2-f":"49.4","avg-hum":"80.3","avg-wind-mph":"8.3","is-workhour":"No","day-night":"Night","hour-name-12":"2am","hour-name-12-long":"2 AM"},{idx:"3","avg-cnt":"94.2","avg-t2-f":"49.0","avg-hum":"81.1","avg-wind-mph":"8.1","is-workhour":"No","day-night":"Night","hour-name-12":"3am","hour-name-12-long":"3 AM"},{idx:"4","avg-cnt":"73.3","avg-t2-f":"48.6","avg-hum":"81.7","avg-wind-mph":"8.1","is-workhour":"No","day-night":"Night","hour-name-12":"4am","hour-name-12-long":"4 AM"},{idx:"5","avg-cnt":"110.7","avg-t2-f":"48.5","avg-hum":"82.1","avg-wind-mph":"8.0","is-workhour":"No","day-night":"Night","hour-name-12":"5am","hour-name-12-long":"5 AM"},{idx:"6","avg-cnt":"466.6","avg-t2-f":"48.6","avg-hum":"81.6","avg-wind-mph":"8.3","is-workhour":"No","day-night":"Day","hour-name-12":"6am","hour-name-12-long":"6 AM"},{idx:"7","avg-cnt":"1468.7","avg-t2-f":"49.3","avg-hum":"80.0","avg-wind-mph":"8.7","is-workhour":"No","day-night":"Day","hour-name-12":"7am","hour-name-12-long":"7 AM"},{idx:"8","avg-cnt":"2882.8","avg-t2-f":"50.5","avg-hum":"77.4","avg-wind-mph":"9.2","is-workhour":"No","day-night":"Day","hour-name-12":"8am","hour-name-12-long":"8 AM"},{idx:"9","avg-cnt":"1653.0","avg-t2-f":"52.1","avg-hum":"73.9","avg-wind-mph":"10.1","is-workhour":"Yes","day-night":"Day","hour-name-12":"9am","hour-name-12-long":"9 AM"},{idx:"10","avg-cnt":"1064.7","avg-t2-f":"53.8","avg-hum":"70.0","avg-wind-mph":"10.7","is-workhour":"Yes","day-night":"Day","hour-name-12":"10am","hour-name-12-long":"10 AM"},{idx:"11","avg-cnt":"1151.2","avg-t2-f":"55.2","avg-hum":"66.7","avg-wind-mph":"11.4","is-workhour":"Yes","day-night":"Day","hour-name-12":"11am","hour-name-12-long":"11 AM"},{idx:"12","avg-cnt":"1433.7","avg-t2-f":"56.3","avg-hum":"64.1","avg-wind-mph":"11.7","is-workhour":"Yes","day-night":"Day","hour-name-12":"12pm","hour-name-12-long":"12 PM"},{idx:"13","avg-cnt":"1505.7","avg-t2-f":"57.0","avg-hum":"62.4","avg-wind-mph":"11.9","is-workhour":"Yes","day-night":"Day","hour-name-12":"1pm","hour-name-12-long":"1 PM"},{idx:"14","avg-cnt":"1472.0","avg-t2-f":"57.3","avg-hum":"61.4","avg-wind-mph":"12.1","is-workhour":"Yes","day-night":"Day","hour-name-12":"2pm","hour-name-12-long":"2 PM"},{idx:"15","avg-cnt":"1564.6","avg-t2-f":"57.3","avg-hum":"61.1","avg-wind-mph":"11.9","is-workhour":"Yes","day-night":"Day","hour-name-12":"3pm","hour-name-12-long":"3 PM"},{idx:"16","avg-cnt":"1869.8","avg-t2-f":"57.0","avg-hum":"62.0","avg-wind-mph":"11.7","is-workhour":"Yes","day-night":"Day","hour-name-12":"4pm","hour-name-12-long":"4 PM"},{idx:"17","avg-cnt":"2829.6","avg-t2-f":"56.3","avg-hum":"63.6","avg-wind-mph":"11.3","is-workhour":"No","day-night":"Day","hour-name-12":"5pm","hour-name-12-long":"5 PM"},{idx:"18","avg-cnt":"2629.0","avg-t2-f":"55.6","avg-hum":"65.6","avg-wind-mph":"10.9","is-workhour":"No","day-night":"Day","hour-name-12":"6pm","hour-name-12-long":"6 PM"},{idx:"19","avg-cnt":"1651.5","avg-t2-f":"54.6","avg-hum":"68.0","avg-wind-mph":"10.5","is-workhour":"No","day-night":"Day","hour-name-12":"7pm","hour-name-12-long":"7 PM"},{idx:"20","avg-cnt":"1059.8","avg-t2-f":"53.5","avg-hum":"70.7","avg-wind-mph":"9.9","is-workhour":"No","day-night":"Night","hour-name-12":"8pm","hour-name-12-long":"8 PM"},{idx:"21","avg-cnt":"741.2","avg-t2-f":"52.5","avg-hum":"73.3","avg-wind-mph":"9.4","is-workhour":"No","day-night":"Night","hour-name-12":"9pm","hour-name-12-long":"9 PM"},{idx:"22","avg-cnt":"592.4","avg-t2-f":"51.7","avg-hum":"75.2","avg-wind-mph":"9.1","is-workhour":"No","day-night":"Night","hour-name-12":"10pm","hour-name-12-long":"10 PM"},{idx:"23","avg-cnt":"439.7","avg-t2-f":"51.0","avg-hum":"76.9","avg-wind-mph":"8.8","is-workhour":"No","day-night":"Night","hour-name-12":"11pm","hour-name-12-long":"11 PM"}];
+        var data=[{idx:"0","avg-cnt":"784.7","avg-t2-f":"39.6","avg-hum":"77.5","avg-wind-mph":"11.1",season:"Winter","month-abbr":"Jan","month-name":"January"},{idx:"1","avg-cnt":"836.3","avg-t2-f":"38.5","avg-hum":"74.9","avg-wind-mph":"10.5",season:"Winter","month-abbr":"Feb","month-name":"February"},{idx:"2","avg-cnt":"921.3","avg-t2-f":"42.1","avg-hum":"71.9","avg-wind-mph":"10.5",season:"Spring","month-abbr":"Mar","month-name":"March"},{idx:"3","avg-cnt":"1113.0","avg-t2-f":"48.0","avg-hum":"67.5","avg-wind-mph":"9.5",season:"Spring","month-abbr":"Apr","month-name":"April"},{idx:"4","avg-cnt":"1275.1","avg-t2-f":"56.6","avg-hum":"66.4","avg-wind-mph":"10.6",season:"Spring","month-abbr":"May","month-name":"May"},{idx:"5","avg-cnt":"1383.4","avg-t2-f":"61.9","avg-hum":"68.9","avg-wind-mph":"9.7",season:"Summer","month-abbr":"Jun","month-name":"June"},{idx:"6","avg-cnt":"1543.7","avg-t2-f":"66.7","avg-hum":"64.4","avg-wind-mph":"10.5",season:"Summer","month-abbr":"Jul","month-name":"July"},{idx:"7","avg-cnt":"1463.1","avg-t2-f":"66.6","avg-hum":"67.3","avg-wind-mph":"9.3",season:"Summer","month-abbr":"Aug","month-name":"August"},{idx:"8","avg-cnt":"1356.6","avg-t2-f":"61.9","avg-hum":"71.8","avg-wind-mph":"8.5",season:"Fall","month-abbr":"Sep","month-name":"September"},{idx:"9","avg-cnt":"1217.5","avg-t2-f":"54.6","avg-hum":"77.6","avg-wind-mph":"7.6",season:"Fall","month-abbr":"Oct","month-name":"October"},{idx:"10","avg-cnt":"965.9","avg-t2-f":"47.2","avg-hum":"78.7","avg-wind-mph":"10.7",season:"Fall","month-abbr":"Nov","month-name":"November"},{idx:"11","avg-cnt":"845.5","avg-t2-f":"48.5","avg-hum":"81.0","avg-wind-mph":"10.3",season:"Winter","month-abbr":"Dec","month-name":"December"}];
         var palette = ["#4e79a7", "#f28e2c", "#e15759", "#76b7b2", "#59a14f", "#edc949", "#af7aa1", "#ff9da7", "#9c755f", "#bab0ab"]
-        var workhourPalette = { "Yes": palette[5], "No": palette[0] };
+        var seasonPalette = { "Winter": palette[3], "Spring": palette[4], "Summer": palette[2], "Fall": palette[5] };
 
         function mouseoverBar() {
             var selData = d3.select(this).data()[0]
@@ -183,27 +179,25 @@
                     return "normal"
                 })
             var d = d3.select(this).data()[0]
-            d3.select("#hour-name")
-                .html(d["hour-name-12-long"])
-                .style("color", workhourPalette[d["is-workhour"]])
+            d3.select("#month-name").html(d["month-name"]).style("color", seasonPalette[d["season"]])
             d3.select("#avg-cnt").html(`${d["avg-cnt"]} shares/hr`)
             d3.select("#avg-hum").html(`${d["avg-hum"]}%`)
             d3.select("#avg-wind-mph").html(`${d["avg-wind-mph"]} mph`)
-            d3.select("#avg-t2-f").html(`${d["avg-t2-f"]}°F`)
-            d3.select("#is-workhour").html(`${d["is-workhour"]}`)
-            d3.select("#day-night").html(`${d["day-night"]}`)
+            d3.select("#season").html(`${d["season"]}`)
+            d3.select("#avg-t2-f").html(`${d["avg-t2-f"]}°F`);
         }
 
 
         var x = d3.scaleLinear()
-            .domain([0, 24])
+            .domain([0, 12])
             .range([10, 600]);
 
         var y = d3.scaleLinear()
-            .domain([0, 3400])
+            .domain([0, 1750])
             .range([395, 0]);
 
         var svg = d3.select("#chart");
+
 
         // CHART BODY
         // chart bars
@@ -216,14 +210,14 @@
             .attr("y", function (d, i) { return `${y(parseFloat(d["avg-cnt"]))}` })
             .attr("x", function (d, i) { return `${x(i)+60}` })
             .attr("fill", function (d, i) { return palette[0] })
-            .attr("fill", function (d, i) { return workhourPalette[d["is-workhour"]] })
+            .attr("fill", function (d, i) { return seasonPalette[d["season"]]; })
             .on('mouseover', mouseoverBar);
         // chart legend
         var i = 0;
-        var legend_x = 555,
+        var legend_x = 575,
             legend_y = 25,
-            legend_w = 110,
-            legend_h = 65
+            legend_w = 90,
+            legend_h = 95
         svg.append("rect")
             .attr("x", legend_x - 15)
             .attr("y", legend_y - 20)
@@ -232,11 +226,11 @@
             .style("stroke", "lightgrey")
             .style("fill", "none")
         svg.append("text")
-            .text("Work hour?")
+            .text("Season")
             .style("font-weight", "bold")
             .attr("x", legend_x)
             .attr("y", legend_y)
-        for (const [key, value] of Object.entries(workhourPalette)) {
+        for (const [key, value] of Object.entries(seasonPalette)) {
             svg.append("circle").attr("cx", legend_x + 2).attr("cy", legend_y + 15 * i + 15).attr("r", 4).style("fill", value)
             svg.append("text").attr("x", legend_x + 10 + 2).attr("y", legend_y + 15 * i + 15).text(key).style("font-size", "15px").attr("alignment-baseline", "middle")
             i += 1;
@@ -268,13 +262,8 @@
             .attr("x", function (d, i) { return `${x(i+0.5)-5+60}` })
             .attr("y", `${20+400}`)
             .style("text-anchor", "middle")
-            .style("font-size", "12px")
-            .style("fill", function (d, i) {
-                if (i % 2 == 0) { return "black" }
-                return "none"
-            })
-            .each(function (d, i) {
-                d3.select(this).text(d["hour-name-12"])
+            .each(function (d, i) { 
+                d3.select(this).text(d["month-abbr"]) 
             })
             .call(wrap, 80)
         // x-axis title
@@ -283,7 +272,7 @@
             .attr("y", 50 + 400)
             .style("text-anchor", "middle")
             .style("font-weight", "bold")
-            .text("Time of Day")
+            .text("Month")
 
 
         // ANNOTATIONS
@@ -304,52 +293,33 @@
 
         // Annotation arrow 1
         svg.append('path')
-            .attr('d', d3.line()([[300, 20], [280, 45]]))
-            .attr('stroke', palette[1])
-            .attr('marker-end', 'url(#arrow)')
-            .attr('fill', "none")
-            .attr("stroke-dasharray", "4")
-            .attr("stroke-width", "2px");
-        // Annotation arrow 2
-        svg.append('path')
-            .attr('d', d3.line()([[470, 20], [490, 50]]))
+            .attr('d', d3.line()([[290, 30], [350, 40]]))
             .attr('stroke', palette[1])
             .attr('marker-end', 'url(#arrow)')
             .attr('fill', "none")
             .attr("stroke-dasharray", "4")
             .attr("stroke-width", "2px");
 
-        // Annotation text 1
+        // Annotation arrow 2
+        svg.append('path')
+            .attr('d', d3.line()([[120, 70], [90, 200]]))
+            .attr('stroke', palette[1])
+            .attr('marker-end', 'url(#arrow)')
+            .attr('fill', "none")
+            .attr("stroke-dasharray", "4")
+            .attr("stroke-width", "2px");
+
+        // Annotation text
         svg.append("text")
-            .attr("x", 385)
+            .attr("x", 180)
             .attr("y", 20)
             .attr('fill', palette[1])
             .style("text-anchor", "middle")
             .style("font-weight", "bold")
             .each(function (d, i) {
-                d3.select(this).text("Shares spike right before and after work hours (perhaps due to commutes).")
+                d3.select(this).text("People tend to bike share most in July (summer) and least in January (winter).")
             })
-            .call(wrap, 160)
-
-        // Annotation arrow 3
-        svg.append('path')
-            .attr('d', d3.line()([[80, 340], [80, 320], [200, 320], [200, 340]]))
-            .attr('stroke', palette[1])
-            .attr('fill', "none")
-            .attr("stroke-dasharray", "4")
-            .attr("stroke-width", "2px");
-
-        // Annotation text 2
-        svg.append("text")
-            .attr("x", 145)
-            .attr("y", 270)
-            .attr('fill', palette[1])
-            .style("text-anchor", "middle")
-            .style("font-weight", "bold")
-            .each(function (d, i) {
-                d3.select(this).text("There's a definite lull in shares during the night.")
-            })
-            .call(wrap, 140)
+            .call(wrap, 200)
     </script>
 
 </body>
